@@ -7,6 +7,7 @@ import com.miron.directservice.domain.entity.PersonalChat;
 import com.miron.directservice.domain.entity.Message;
 import com.miron.directservice.domain.springAnnotations.DomainService;
 import com.miron.directservice.domain.usecases.*;
+import com.miron.directservice.domain.entity.User;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,16 +15,18 @@ import java.util.UUID;
 @DomainService
 public class ChatManagementService implements ChatBasicService {
     private final DeleteMessage deleteMessageCommand;
-    private final CreateChat createChatCommand;
+    private final CreatePersonalChat createPersonalChatCommand;
+    private final CreateGroupChat createGroupChatCommand;
     private final RetrieveChat retrieveChatCommand;
     private final SendMessage sendMessageCommand;
     private final RedactMessage redactMessageCommand;
     private final ClearChat clearChatCommand;
     private final RetrieveChats retrieveChatsCommand;
 
-    public ChatManagementService(DeleteMessage deleteMessageCommand, CreateChat createChatCommand, RetrieveChat retrieveChatCommand, SendMessage sendMessageCommand, RedactMessage redactMessageCommand, ClearChat clearChatCommand, RetrieveChats retrieveChatsCommand) {
+    public ChatManagementService(DeleteMessage deleteMessageCommand, CreatePersonalChat createPersonalChatCommand, CreateGroupChat createGroupChatCommand, RetrieveChat retrieveChatCommand, SendMessage sendMessageCommand, RedactMessage redactMessageCommand, ClearChat clearChatCommand, RetrieveChats retrieveChatsCommand) {
         this.deleteMessageCommand = deleteMessageCommand;
-        this.createChatCommand = createChatCommand;
+        this.createPersonalChatCommand = createPersonalChatCommand;
+        this.createGroupChatCommand = createGroupChatCommand;
         this.retrieveChatCommand = retrieveChatCommand;
         this.sendMessageCommand = sendMessageCommand;
         this.redactMessageCommand = redactMessageCommand;
@@ -32,13 +35,13 @@ public class ChatManagementService implements ChatBasicService {
     }
 
     @Override
-    public PersonalChat createPersonalChat(String template, String username) {
-        return createChatCommand.execute(template, username);
+    public PersonalChat createPersonalChat(User user, String username) {
+        return createPersonalChatCommand.execute(user, username);
     }
 
     @Override
-    public GroupChat createGroupChat(String template, String chatName, String username) {
-        return createChatCommand.execute(template, chatName, username);
+    public GroupChat createGroupChat(String chatName, String username) {
+        return createGroupChatCommand.execute(chatName, username);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.miron.directservice.infrastructure.controller;
 
 import com.miron.directservice.domain.api.*;
+import com.miron.directservice.infrastructure.utils.UserConverter;
+import com.miron.directservice.domain.entity.User;
 import com.miron.directservice.infrastructure.controller.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ public class BasicChatController {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String PROFILE_URI = "http://localhost:8083/api/v1/profile";
     private final ChatBasicService chatBasicService;
+    private final UserConverter userConverter = new UserConverter();
 
     public BasicChatController(ChatBasicService chatBasicService) {
         this.chatBasicService = chatBasicService;
@@ -82,7 +85,8 @@ public class BasicChatController {
     @PostMapping("/create-personal-chat/{id}")
     public ResponseEntity<PersonalChatResponse> createPersonalChat(@PathVariable("id") UUID userId) {
         String template = restTemplate.getForObject(PROFILE_URI + "/%s".formatted(userId), String.class);
-        var response = chatBasicService.createPersonalChat(template, USERNAME);
+        User user = userConverter.apply(template);
+        var response = chatBasicService.createPersonalChat(user, USERNAME);
         return ResponseEntity.ok()
                 .body(new PersonalChatResponse(response));
     }

@@ -1,6 +1,6 @@
 package com.miron.directservice.infrastructure.controller.model;
 
-import com.miron.directservice.domain.valueObject.User;
+import com.miron.directservice.domain.entity.User;
 
 import java.util.UUID;
 

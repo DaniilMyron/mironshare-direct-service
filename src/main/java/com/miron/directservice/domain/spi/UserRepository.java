@@ -1,6 +1,6 @@
 package com.miron.directservice.domain.spi;
 
-import com.miron.directservice.domain.valueObject.User;
+import com.miron.directservice.domain.entity.User;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,7 +1,5 @@
 package com.miron.directservice.domain.entity;
 
-import com.miron.directservice.domain.valueObject.User;
-
 import java.util.UUID;
 
 

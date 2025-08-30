@@ -3,17 +3,18 @@ package com.miron.directservice.infrastructure;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miron.directservice.domain.api.ChatBasicService;
 import com.miron.directservice.domain.entity.PersonalChat;
+import com.miron.directservice.domain.entity.UserDomainEntity;
 import com.miron.directservice.domain.repository.GroupChatInMemoryRepository;
-import com.miron.directservice.domain.repository.UserRepositoryInMemory;
 import com.miron.directservice.domain.spi.ChatRepository;
 import com.miron.directservice.domain.spi.UserRepository;
 import com.miron.directservice.domain.springAnnotations.DomainRepository;
-import com.miron.directservice.domain.valueObject.ChatName;
-import com.miron.directservice.domain.entity.Message;
-import com.miron.directservice.domain.valueObject.User;
+import com.miron.directservice.infrastructure.entity.UserEntity;
+import com.miron.directservice.infrastructure.utils.UserConverter;
+import com.miron.directservice.domain.entity.User;
 import com.miron.directservice.infrastructure.config.DomainConfiguration;
 import com.miron.directservice.infrastructure.controller.BasicChatController;
 import com.miron.directservice.infrastructure.controller.model.MessageIdRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,23 +28,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Slf4j
 @WebMvcTest(BasicChatController.class)
 @Import(DomainConfiguration.class)
 public class PersonalChatBasicTest {
-    private static final String template = "{\"accountUsername\":\"MIRON1\",\"accountName\":\"danik\",\"accountPicture\":null,\"userAge\":null,\"userGender\":null,\"userAbout\":null}";
+    static final String template = "{\"username\":\"danik\",\"name\":null,\"profilePicture\":null,\"personalInformation\":null,\"gender\":null}";
+    private final User USER_RECEIVER = new UserEntity("MIRON1", "danik", "null", "null", "Male");
     private static final String USERNAME = "username";
     @Autowired
     private MockMvc mockMvc;
     private ObjectMapper objectMapper = new ObjectMapper();
     private static final String BASE_URL = "/api/v1/direct";
-
+    private UserConverter userConverter = new UserConverter();
     @Autowired
     private ChatBasicService chatBasicService = Mockito.mock(ChatBasicService.class);
 
@@ -54,8 +56,11 @@ public class PersonalChatBasicTest {
 
     @BeforeEach
     void setUp() {
-        userRepository.save(new User(USERNAME, USERNAME, null, null, null));
-        var personalChat = chatBasicService.createPersonalChat(template, USERNAME);
+        User user = userConverter.apply(template);
+        log.info("User info: {}", user.getUserInfo());
+        userRepository.save(new UserDomainEntity(USERNAME, USERNAME, null, null, null));
+        userRepository.save(USER_RECEIVER);
+        var personalChat = chatBasicService.createPersonalChat(USER_RECEIVER, USERNAME);
 
         chatBasicService.sendMessage(personalChat.getId(), "firstMessage firstUser", USERNAME);
         chatBasicService.sendMessage(personalChat.getId(), "secondMessage firstUser", USERNAME);

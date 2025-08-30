@@ -2,7 +2,7 @@ package com.miron.directservice.domain.repository;
 
 import com.miron.directservice.domain.spi.UserRepository;
 import com.miron.directservice.domain.springAnnotations.DomainRepository;
-import com.miron.directservice.domain.valueObject.User;
+import com.miron.directservice.domain.entity.User;
 
 import java.util.*;
 

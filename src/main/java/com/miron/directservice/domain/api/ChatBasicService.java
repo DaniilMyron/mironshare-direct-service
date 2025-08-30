@@ -4,13 +4,14 @@ import com.miron.directservice.domain.entity.Chat;
 import com.miron.directservice.domain.entity.GroupChat;
 import com.miron.directservice.domain.entity.Message;
 import com.miron.directservice.domain.entity.PersonalChat;
+import com.miron.directservice.domain.entity.User;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ChatBasicService {
-    PersonalChat createPersonalChat(String template, String username);
-    GroupChat createGroupChat(String template, String chatName, String username);
+    PersonalChat createPersonalChat(User user, String username);
+    GroupChat createGroupChat(String chatName, String username);
     List<Message> findMessages(UUID chatId, String messageText);
     List<Message> retrieveMessages(UUID id);
     Message sendMessage(UUID chatId, String messageText, String username);

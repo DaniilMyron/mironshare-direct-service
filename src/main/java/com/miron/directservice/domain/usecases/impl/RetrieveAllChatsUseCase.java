@@ -7,7 +7,7 @@ import com.miron.directservice.domain.entity.GroupChat;
 import com.miron.directservice.domain.entity.PersonalChat;
 import com.miron.directservice.domain.spi.ChatRepository;
 import com.miron.directservice.domain.spi.UserRepository;
-import com.miron.directservice.domain.valueObject.User;
+import com.miron.directservice.domain.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
