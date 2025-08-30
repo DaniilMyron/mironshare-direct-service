@@ -21,6 +21,9 @@ public class RetrieveAnyChatUseCase implements RetrieveChat {
 
     @Override
     public Chat retrieveChat(UUID chatId) {
-        return personalChatRepository.findById(chatId) != null ? personalChatRepository.findById(chatId) : groupChatRepository.findById(chatId);
+        //TODO: MAKE NORMAL EXCEPTIONS
+        return personalChatRepository.findById(chatId).isPresent()
+                ? personalChatRepository.findById(chatId).orElseThrow()
+                : groupChatRepository.findById(chatId).orElseThrow();
     }
 }

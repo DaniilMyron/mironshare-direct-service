@@ -18,8 +18,8 @@ public class PersonalChatInMemoryRepository implements ChatRepository<PersonalCh
     }
 
     @Override
-    public PersonalChat findById(UUID id) {
-        return chats.get(id);
+    public Optional<PersonalChat> findById(UUID id) {
+        return Optional.ofNullable(chats.get(id));
     }
 
     @Override

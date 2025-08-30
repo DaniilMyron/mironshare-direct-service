@@ -54,13 +54,14 @@ public class PersonalChatBasicTest {
     @Autowired
     private UserRepository userRepository;
 
+    private static PersonalChat personalChat = null;
+
     @BeforeEach
     void setUp() {
-        User user = userConverter.apply(template);
-        log.info("User info: {}", user.getUserInfo());
         userRepository.save(new UserDomainEntity(USERNAME, USERNAME, null, null, null));
         userRepository.save(USER_RECEIVER);
-        var personalChat = chatBasicService.createPersonalChat(USER_RECEIVER, USERNAME);
+        if(personalChat == null)
+            personalChat = chatBasicService.createPersonalChat(USER_RECEIVER, USERNAME);
 
         chatBasicService.sendMessage(personalChat.getId(), "firstMessage firstUser", USERNAME);
         chatBasicService.sendMessage(personalChat.getId(), "secondMessage firstUser", USERNAME);

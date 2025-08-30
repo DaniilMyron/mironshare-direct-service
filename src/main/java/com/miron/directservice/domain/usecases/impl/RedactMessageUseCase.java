@@ -24,7 +24,7 @@ public class RedactMessageUseCase implements RedactMessage {
 
     @Override
     public Message execute(PersonalChat chat, UUID messageId, String messageText) {
-        var message = messageBasicService.findById(messageId);
+        var message = messageBasicService.findById(messageId).orElseThrow();
         message = messageBasicService.redactMessage(message, messageText);
         personalChatRepository.save(chat.redactMessage(message));
         return message;
@@ -32,7 +32,7 @@ public class RedactMessageUseCase implements RedactMessage {
 
     @Override
     public Message execute(GroupChat chat, UUID messageId, String messageText) {
-        var message = messageBasicService.findById(messageId);
+        var message = messageBasicService.findById(messageId).orElseThrow();
         message = messageBasicService.redactMessage(message, messageText);
         groupChatRepository.save(chat.redactMessage(message));
         return message;

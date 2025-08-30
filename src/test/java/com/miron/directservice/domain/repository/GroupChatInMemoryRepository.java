@@ -18,8 +18,8 @@ public class GroupChatInMemoryRepository implements ChatRepository<GroupChat> {
     }
 
     @Override
-    public GroupChat findById(UUID id) {
-        return chats.get(id);
+    public Optional<GroupChat> findById(UUID id) {
+        return Optional.ofNullable(chats.get(id));
     }
 
     @Override

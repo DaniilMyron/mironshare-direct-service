@@ -5,6 +5,7 @@ import com.miron.directservice.domain.spi.MessageRepository;
 import com.miron.directservice.domain.springAnnotations.DomainService;
 import com.miron.directservice.domain.entity.Message;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -37,7 +38,7 @@ public class MessageService implements MessageBasicService{
     }
 
     @Override
-    public Message findById(UUID id) {
+    public Optional<Message> findById(UUID id) {
         return messageRepository.findById(id);
     }
 }

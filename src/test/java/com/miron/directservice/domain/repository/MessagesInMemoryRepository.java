@@ -19,17 +19,16 @@ public class MessagesInMemoryRepository implements MessageRepository {
     }
 
     @Override
-    public Message findById(UUID id) {
-        return messages.get(id);
+    public Optional<Message> findById(UUID id) {
+        return Optional.ofNullable(messages.get(id));
     }
 
     @Override
-    public Message findBySenderId(UUID senderId) {
+    public Optional<Message> findBySenderId(UUID senderId) {
         return messages.values()
                 .stream()
                 .filter(m -> m.getSenderId() == senderId)
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     @Override
