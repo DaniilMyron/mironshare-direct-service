@@ -16,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/direct")
 public class BasicChatController {
-    //TODO DELETE THIS
+    //TODO DELETE THIS][
     private static final String USERNAME = "MIRON1";
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String PROFILE_URI = "http://localhost:8083/api/v1/profile";
